@@ -31,7 +31,6 @@ const getProjects = (project_name, document_title, document_category, department
 
 const insertProjects = (project_name, document_title, document_category, department, type, industry, createdBy, callback) => {
   const createdAt = new Date().toISOString();
-  console.log(createdBy)
   const sql = `INSERT INTO project 
               (project_name, 
               document_title, 

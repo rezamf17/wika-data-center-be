@@ -15,7 +15,6 @@ exports.getProjects = (req, res) => {
 
 exports.insertProjects = (req, res) => {
     const { project_name, document_title, document_category, department, type, industry, createdBy } = req.body
-    console.log(req.body)
     Project.insertProjects(project_name, document_title, document_category, department, type, industry, createdBy,(err, projects) => {
         if (err) {
           console.error('Error inserted projects:', err.message);
