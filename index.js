@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: true })); // Parse incoming URL-encoded d
 // Connect routes
 app.get('/project', ProjectController.getProjects);
 app.post('/project', ProjectController.insertProjects);
+app.put('/project/:id', ProjectController.updateProjects);
 // ... Connect other routes here as needed
 
 // Error handling middleware (optional)
