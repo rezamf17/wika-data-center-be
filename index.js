@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 const ProjectController = require('./app/controllers/projectController')
+const UserController = require('./app/controllers/userController')
 
 // Set up middleware
 app.use(express.json()); // Parse incoming JSON data
@@ -15,6 +16,10 @@ app.get('/project', ProjectController.getProjects);
 app.post('/project', ProjectController.insertProjects);
 app.put('/project/:id', ProjectController.updateProjects);
 app.delete('/project/:id', ProjectController.deleteProjects);
+
+//user
+
+app.get('/user', UserController.getUsers)
 // ... Connect other routes here as needed
 
 // Error handling middleware (optional)

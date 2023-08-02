@@ -1,5 +1,4 @@
 const Project = require('../models/projectModel')
-const db = require('../../connection')
 const response = require('../response/projectResponse')
 
 exports.getProjects = (req, res) => {
