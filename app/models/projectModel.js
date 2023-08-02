@@ -1,18 +1,6 @@
 const connection = require('../../connection')
 const format = require('../tools/FormatDate')
 
-// const getDataProject = (project_name, document_title, document_category, department, type, industry) => {
-//     const sql = `SELECT * FROM project WHERE 
-//             project_name LIKE '%${project_name}%' 
-//             AND document_title LIKE '%${document_title}%' 
-//             AND document_category LIKE '%${document_category}%' 
-//             AND department LIKE '%${department}%' 
-//             AND type Like '%${type}%' 
-//             AND industry LIKE '%${industry}%'`
-    
-//     return sql
-// }
-
 const getProjects = (project_name, document_title, document_category, department, type, industry, callback) => {
          const sql = `SELECT * FROM project WHERE 
                 project_name LIKE '%${project_name}%'
@@ -76,4 +64,14 @@ const updateProjects = (id, project_name, document_title, document_category, dep
       });
   };
 
-module.exports = {getProjects, insertProjects, updateProjects}
+const deleteProjects = (id, callback) => {
+  const sql = `DELETE FROM project WHERE id = ${id}`
+    connection.query(sql, (err, results) => {
+        if (err) {
+          return callback(err, null);
+        }
+        return callback(null, results);
+      });
+  };
+
+module.exports = {getProjects, insertProjects, updateProjects, deleteProjects}
