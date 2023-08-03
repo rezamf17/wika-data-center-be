@@ -34,3 +34,25 @@ exports.insertUsers = async (req, res) => {
     response(200, [], 'Success', res);
   })
 }
+
+exports.updateUsers = async (req, res) => {
+  const {id, nama_lengkap, email, role, nip, password, status, createdBy } = req.body
+  const hashPassword = await bcrypt.hash(password, 10)
+  if(password != ""){
+    User.updateUsers(id, nama_lengkap, email, role, nip, hashPassword, status, createdBy, (err) => {
+      if (err) {
+        console.error('Error update users:', err.message);
+        return res.status(500).json({ error: 'Failed to update users.' });
+      }
+      response(200, [], 'Success', res);
+    })
+  }else{
+    User.updateUsersWithoutPassword(id, nama_lengkap, email, role, nip, status, createdBy, (err) => {
+      if (err) {
+        console.error('Error update users:', err.message);
+        return res.status(500).json({ error: 'Failed to update users.' });
+      }
+      response(200, [], 'Success', res);
+    })
+  }
+}
