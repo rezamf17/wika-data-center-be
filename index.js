@@ -20,6 +20,7 @@ app.delete('/project/:id', ProjectController.deleteProjects);
 //user
 
 app.get('/user', UserController.getUsers)
+app.post('/user', UserController.insertUsers)
 // ... Connect other routes here as needed
 
 // Error handling middleware (optional)
