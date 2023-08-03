@@ -3,8 +3,8 @@ const response = require('../response/projectResponse')
 const bcrypt = require('bcrypt');
 
 exports.getUsers = (req, res) => {
-    // const {  } = req.query
-    User.getUsers((err, users) => {
+    const { nama_lengkap, email, role, nip, status } = req.query
+    User.getUsers(nama_lengkap, email, role, nip, status, (err, users) => {
         if (err) {
           console.error('Error fetching users:', err.message);
           return res.status(500).json({ error: 'Failed to fetch users.' });
@@ -16,7 +16,8 @@ exports.getUsers = (req, res) => {
                 nama_lengkap : user.nama_lengkap,
                 email : user.email,
                 role : user.role,
-                nip : user.nip
+                nip : user.nip,
+                status : user.status
             })
         })
         response(200, resUser, 'Success', res);
