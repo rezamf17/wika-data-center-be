@@ -79,4 +79,14 @@ const updateUsersWithoutPassword = (id, nama_lengkap, email, role, nip, status, 
       });
   };
 
-  module.exports = {getUsers, insertUsers, updateUsers, updateUsersWithoutPassword}
+  const deleteUser = (id, callback) => {
+    const sql = `DELETE FROM user WHERE id = ${id}`
+      connection.query(sql, (err, results) => {
+          if (err) {
+            return callback(err, null);
+          }
+          return callback(null, results);
+        });
+    };
+
+  module.exports = {getUsers, insertUsers, updateUsers, updateUsersWithoutPassword, deleteUser}

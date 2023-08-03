@@ -56,3 +56,14 @@ exports.updateUsers = async (req, res) => {
     })
   }
 }
+
+exports.deleteUsers = async (req, res) => {
+  const { id } = req.body
+  User.deleteUser(id,(err, projects) => {
+      if (err) {
+        console.error('Error deleted user:', err.message);
+        return res.status(500).json({ error: 'Failed to deleted user.' });
+      }
+      response(200, [], 'Success', res);
+    });
+}
