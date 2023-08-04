@@ -3,11 +3,12 @@ const express = require('express');
 const app = express();
 const ProjectController = require('./app/controllers/projectController')
 const UserController = require('./app/controllers/userController')
+const bodyParser = require('body-parser')
 
-// Set up middleware
-app.use(express.json()); // Parse incoming JSON data
-app.use(express.urlencoded({ extended: true })); // Parse incoming URL-encoded data
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
+// Parse application/json
+app.use(bodyParser.json({ limit: '10mb' }));
 // Import routes
 // ... Add more routes here as needed
 

@@ -1,5 +1,9 @@
 const Project = require('../models/projectModel')
 const response = require('../response/projectResponse')
+const multer = require('multer');
+const fs = require('fs')
+const path = require('path')
+
 
 exports.getProjects = (req, res) => {
     const { project_name, document_title, document_category, department, type, industry } = req.query
@@ -14,6 +18,30 @@ exports.getProjects = (req, res) => {
 
 exports.insertProjects = (req, res) => {
     const { project_name, document_title, document_category, department, type, industry, createdBy } = req.body
+    const image1 = req.body.image1
+    console.log(req)
+    // Di sini, Anda dapat menyimpan image1 ke database atau menyimpannya sebagai file di server
+    // Simpan gambar di dalam folder "uploads"
+
+    // Mendapatkan extension file gambar dari base64 string (misalnya .png, .jpg, dll.)
+    const extension = image1.split(';')[0].split('/')[1];
+
+    // Membuat nama unik untuk file gambar
+    const filename = Date.now() + '.' + extension;
+
+    // Menentukan path untuk menyimpan gambar di dalam folder "uploads"
+    const imagePath = path.join(__dirname, 'uploads', filename);
+
+    // Menghapus prefix "data:image/png;base64," dari image1 agar tersisa data gambar saja
+    const base64Data = image1.replace(/^data:image\/\w+;base64,/, '');
+      // Menyimpan data gambar ke dalam file dengan path yang ditentukan
+    fs.writeFile(imagePath, base64Data, { encoding: 'base64' }, function (err) {
+      if (err) {
+        console.error('Error saving image:', err);
+        return res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan gambar.' });
+      }
+    });
+
     Project.insertProjects(project_name, document_title, document_category, department, type, industry, createdBy,(err, projects) => {
         if (err) {
           console.error('Error inserted projects:', err.message);
