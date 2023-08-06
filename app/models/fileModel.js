@@ -13,7 +13,7 @@ const insertFile = (id_project, filename, createdBy,callback) => {
                 '${filename}', 
                 '${format.ISOString(createdAt)}', 
                 '${createdBy}')`
-                console.log("SQL :",sql);
+                // console.log("SQL :",sql);
       connection.query(sql, (err, results) => {
           if (err) {
             return callback(err, null);

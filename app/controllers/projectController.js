@@ -17,23 +17,23 @@ exports.getProjects = (req, res) => {
       });
 };
 
-exports.insertProjects = (req, res) => {
+exports.insertProjects = async (req, res) => {
     const { project_name, document_title, document_category, department, type, industry, createdBy } = req.body
     var image1 = req.body.image
     var idProject = 0
-    Project.insertProjects(project_name, document_title, document_category, department, type, industry, createdBy,(err, projects) => {
+    await Project.insertProjects(project_name, document_title, document_category, department, type, industry, createdBy,(err, projects) => {
       if (err) {
         console.error('Error inserted projects:', err.message);
-        return res.status(500).json({ error: 'Failed to insert projects.' });
+        // return res.status(500).json({ error: 'Failed to insert projects.' });
       }
-      console.log("projects value: ",projects);
+      // console.log("projects value: ",projects);
       idProject = projects.insertId
     });
 
     image1.forEach(el => {
-    console.log(el.filename);
-    // Mendapatkan extension file gambar dari base64 string (misalnya .png, .jpg, dll.)
-    const extension = el.img.split(';')[0].split('/')[1];
+      // Mendapatkan extension file gambar dari base64 string (misalnya .png, .jpg, dll.)
+      const extension = el.img.split(';')[0].split('/')[1];
+      console.log();
 
     // Membuat nama unik untuk file gambar
     const filename = Date.now() + '.' + extension;
@@ -47,25 +47,17 @@ exports.insertProjects = (req, res) => {
     fs.writeFile(imagePath, base64Data, { encoding: 'base64' }, function (err) {
       if (err) {
         console.error('Error saving image:', err);
-        return res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan gambar.' });
+        // return res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan gambar.' });
       }
-      File.insertFile(idProject,filename,createdBy,(err, files) => {
+      File.insertFile(idProject,filename,createdBy,(err) => {
         if (err) {
           console.error('Error inserted files:', err.message);
-          return res.status(500).json({ error: 'Failed to insert files.' });
+          // return res.status(500).json({ error: 'Failed to insert files.' });
         }
      });
     });
-    response(200, [], 'Success', res);    
   });
-
-
-  
-    // console.log(req)
-    // Di sini, Anda dapat menyimpan image1 ke database atau menyimpannya sebagai file di server
-    // Simpan gambar di dalam folder "uploads"
-
-    
+  response(200, [], 'Success', res);
 };
 
 exports.updateProjects = (req, res) => {
