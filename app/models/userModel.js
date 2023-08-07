@@ -1,13 +1,16 @@
 const connection = require('../../connection')
 const format = require('../tools/FormatDate')
 
-const getUsers = (nama_lengkap, email, role, nip, status, callback) => {
-         const sql = `SELECT * FROM user WHERE 
-         nama_lengkap LIKE '%${nama_lengkap}%'
+const getUsers = (id_role, nama_lengkap, email, nip, status, callback) => {
+         const sql = `SELECT user.id, user.id_role, user.email, user.nama_lengkap, user.nip, user.status, role.rolename as rolename
+         FROM user
+         JOIN role ON user.id_role = role.id
+         AND nama_lengkap LIKE '%${nama_lengkap}%'
+         AND id_role LIKE '%${id_role}%'
          AND email LIKE '%${email}%' 
-         AND role LIKE '%${role}%' 
          AND nip LIKE '%${nip}%' 
          AND status LIKE '%${status}%'`
+         console.log(sql)
     connection.query(sql, (err, results) => {
         if (err) {
           return callback(err, null);

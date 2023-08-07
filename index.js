@@ -4,6 +4,7 @@ const app = express();
 const ProjectController = require('./app/controllers/projectController')
 const UserController = require('./app/controllers/userController')
 const AuthController = require('./app/controllers/authController')
+const AuthMiddleware = require('./app/middleware/authMiddleware')
 const bodyParser = require('body-parser')
 
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
