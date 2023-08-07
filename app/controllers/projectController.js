@@ -1,6 +1,5 @@
 const Project = require('../models/projectModel')
 const response = require('../response/projectResponse')
-const multer = require('multer');
 const fs = require('fs')
 const path = require('path')
 const File = require('../models/fileModel')

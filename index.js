@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const ProjectController = require('./app/controllers/projectController')
 const UserController = require('./app/controllers/userController')
+const AuthController = require('./app/controllers/authController')
 const bodyParser = require('body-parser')
 
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
@@ -25,6 +26,8 @@ app.post('/user', UserController.insertUsers)
 app.put('/user', UserController.updateUsers)
 app.delete('/user', UserController.deleteUsers)
 // ... Connect other routes here as needed
+
+app.post('/login', AuthController.loginUser)
 
 // Error handling middleware (optional)
 app.use((err, req, res, next) => {
