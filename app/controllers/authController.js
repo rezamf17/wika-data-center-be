@@ -6,10 +6,9 @@ const jwt = require('jsonwebtoken');
 const generateToken = (user) => {
     const payload = {
       email: user.email,
-      role: user.id_role // asumsikan Anda memiliki atribut role dalam model user
     };
   
-    const token = jwt.sign(payload, 'rezabelajar', { expiresIn: '1h' }); // Ganti 'secretKey' dengan kunci rahasia yang aman
+    const token = jwt.sign(payload, 'rezabelajar', { expiresIn: '1h' });
     return token;
   };
 

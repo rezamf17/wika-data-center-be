@@ -3,16 +3,15 @@ const jwt = require('jsonwebtoken');
 
 const isAuthenticated = (req, res, next) => {
     const token = req.headers.authorization;
+    const rep = token.replace("Bearer ", "")
     
-    if (!token) {
-      return res.status(401).json({ message: 'Unauthorized' });
+    if (!rep) {
+      return res.status(401).json({ message: 'Unauthorized Token' });
     }
-    
-    jwt.verify(token, 'rezabelajar', (err, decoded) => {
+    jwt.verify(rep, 'rezabelajar', (err, decoded) => {
       if (err) {
-        return res.status(401).json({ message: 'Unauthorized' });
+        return res.status(401).json({ message: 'Unauthorized Auth' });
       }
-      console.log(err)
 
       // Set informasi pengguna yang terverifikasi dalam objek req.user
       req.email = decoded;

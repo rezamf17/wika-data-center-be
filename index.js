@@ -22,7 +22,7 @@ app.delete('/project/:id', ProjectController.deleteProjects);
 
 //user
 
-app.get('/user', UserController.getUsers)
+app.get('/user', AuthMiddleware.isAuthenticated, UserController.getUsers)
 app.post('/user', UserController.insertUsers)
 app.put('/user', UserController.updateUsers)
 app.delete('/user', UserController.deleteUsers)
