@@ -13,7 +13,7 @@ app.use(bodyParser.json({ limit: '10mb' }));
 // Import routes
 // ... Add more routes here as needed
 
-// Connect routes
+// projects
 app.get('/project', ProjectController.getProjects);
 app.post('/project', ProjectController.insertProjects);
 app.put('/project/:id', ProjectController.updateProjects);
@@ -25,8 +25,8 @@ app.get('/user', UserController.getUsers)
 app.post('/user', UserController.insertUsers)
 app.put('/user', UserController.updateUsers)
 app.delete('/user', UserController.deleteUsers)
-// ... Connect other routes here as needed
 
+// authentication
 app.post('/login', AuthController.loginUser)
 
 // Error handling middleware (optional)

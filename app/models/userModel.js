@@ -17,25 +17,26 @@ const getUsers = (nama_lengkap, email, role, nip, status, callback) => {
   };
 
 
-const insertUsers = (nama_lengkap, email, role, nip, password, status, createdBy, callback) => {
+const insertUsers = (id_role, nama_lengkap, email, nip, password, status, createdBy, callback) => {
          const createdAt = new Date().toISOString();
          const sql = `INSERT INTO user 
-                     (nama_lengkap, 
+                     (id_role,
+                     nama_lengkap, 
                      email, 
-                     role, 
                      nip, 
                      password, 
                      status,
                      created,
                      createdBy) VALUES 
-                     ('${nama_lengkap}', 
+                     ('${id_role}',
+                    '${nama_lengkap}', 
                      '${email}', 
-                     '${role}', 
                      '${nip}', 
                      '${password}', 
                      '${status}',
                      '${format.ISOString(createdAt)}',
                      '${createdBy}')`
+                     console.log('SQL :',sql)
     connection.query(sql, (err, results) => {
         if (err) {
           return callback(err, null);

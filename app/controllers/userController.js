@@ -25,9 +25,9 @@ exports.getUsers = (req, res) => {
 };
 
 exports.insertUsers = async (req, res) => {
-  const { nama_lengkap, email, role, nip, password, status, createdBy } = req.body
+  const { id_role, nama_lengkap, email, nip, password, status, createdBy } = req.body
   const hashPassword = await bcrypt.hash(password, 10)
-  User.insertUsers(nama_lengkap, email, role, nip, hashPassword, status, createdBy, (err) => {
+  User.insertUsers(id_role, nama_lengkap, email, nip, hashPassword, status, createdBy, (err) => {
     if (err) {
       console.error('Error inserted users:', err.message);
       return res.status(500).json({ error: 'Failed to insert users.' });
