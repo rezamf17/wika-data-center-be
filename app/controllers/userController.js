@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 
 exports.getUsers = (req, res) => {
     const { id_role, nama_lengkap, email, nip, status } = req.query
+    console.log('get User',req.user)
     User.getUsers( id_role, nama_lengkap, email, nip, status, (err, users) => {
         if (err) {
           console.error('Error fetching users:', err.message);

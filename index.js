@@ -15,17 +15,17 @@ app.use(bodyParser.json({ limit: '10mb' }));
 // ... Add more routes here as needed
 
 // projects
-app.get('/project', ProjectController.getProjects);
-app.post('/project', ProjectController.insertProjects);
-app.put('/project/:id', ProjectController.updateProjects);
-app.delete('/project/:id', ProjectController.deleteProjects);
+app.get('/project', AuthMiddleware.isAuthenticated, ProjectController.getProjects);
+app.post('/project', AuthMiddleware.isAuthenticated, ProjectController.insertProjects);
+app.put('/project/:id', AuthMiddleware.isAuthenticated, ProjectController.updateProjects);
+app.delete('/project/:id', AuthMiddleware.isAuthenticated, ProjectController.deleteProjects);
 
 //user
 
-app.get('/user', AuthMiddleware.isAuthenticated, UserController.getUsers)
-app.post('/user', UserController.insertUsers)
-app.put('/user', UserController.updateUsers)
-app.delete('/user', UserController.deleteUsers)
+app.get('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission(2), UserController.getUsers)
+app.post('/user', AuthMiddleware.isAuthenticated, UserController.insertUsers)
+app.put('/user', AuthMiddleware.isAuthenticated, UserController.updateUsers)
+app.delete('/user', AuthMiddleware.isAuthenticated, UserController.deleteUsers)
 
 // authentication
 app.post('/login', AuthController.loginUser)

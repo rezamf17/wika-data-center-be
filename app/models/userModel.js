@@ -10,7 +10,7 @@ const getUsers = (id_role, nama_lengkap, email, nip, status, callback) => {
          AND email LIKE '%${email}%' 
          AND nip LIKE '%${nip}%' 
          AND status LIKE '%${status}%'`
-         console.log(sql)
+        //  console.log(sql)
     connection.query(sql, (err, results) => {
         if (err) {
           return callback(err, null);
