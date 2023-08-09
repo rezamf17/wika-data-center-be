@@ -6,9 +6,10 @@ const UserController = require('./app/controllers/userController')
 const AuthController = require('./app/controllers/authController')
 const AuthMiddleware = require('./app/middleware/authMiddleware')
 const bodyParser = require('body-parser')
+const cors = require('cors');
 
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
-
+app.use(cors());
 // Parse application/json
 app.use(bodyParser.json({ limit: '10mb' }));
 // Import routes
@@ -22,10 +23,14 @@ app.delete('/project/:id', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPer
 
 //user
 
-app.get('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.getUsers)
-app.post('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.insertUsers)
-app.put('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.updateUsers)
-app.delete('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.deleteUsers)
+app.get('/user', UserController.getUsers)
+app.post('/user', UserController.insertUsers)
+app.put('/user', UserController.updateUsers)
+app.delete('/user', UserController.deleteUsers)
+// app.get('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.getUsers)
+// app.post('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.insertUsers)
+// app.put('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.updateUsers)
+// app.delete('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.deleteUsers)
 
 // authentication
 app.post('/login', AuthController.loginUser)
@@ -38,7 +43,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start the server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
