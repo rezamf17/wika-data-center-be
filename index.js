@@ -15,17 +15,17 @@ app.use(bodyParser.json({ limit: '10mb' }));
 // ... Add more routes here as needed
 
 // projects
-app.get('/project', AuthMiddleware.isAuthenticated, ProjectController.getProjects);
-app.post('/project', AuthMiddleware.isAuthenticated, ProjectController.insertProjects);
-app.put('/project/:id', AuthMiddleware.isAuthenticated, ProjectController.updateProjects);
-app.delete('/project/:id', AuthMiddleware.isAuthenticated, ProjectController.deleteProjects);
+app.get('/project', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([2, 3, 4]), ProjectController.getProjects);
+app.post('/project', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([2, 3, 4]), ProjectController.insertProjects);
+app.put('/project/:id', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([2, 4]), ProjectController.updateProjects);
+app.delete('/project/:id', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([2, 4]), ProjectController.deleteProjects);
 
 //user
 
-app.get('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission(2), UserController.getUsers)
-app.post('/user', AuthMiddleware.isAuthenticated, UserController.insertUsers)
-app.put('/user', AuthMiddleware.isAuthenticated, UserController.updateUsers)
-app.delete('/user', AuthMiddleware.isAuthenticated, UserController.deleteUsers)
+app.get('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.getUsers)
+app.post('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.insertUsers)
+app.put('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.updateUsers)
+app.delete('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.deleteUsers)
 
 // authentication
 app.post('/login', AuthController.loginUser)

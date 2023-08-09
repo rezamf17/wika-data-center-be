@@ -24,7 +24,7 @@ const isAuthenticated = (req, res, next) => {
 const hasPermission = (permission) => {
   return (req, res, next) => {
     const permissions = req.id_role.id_role;
-    if (permissions == permission) {
+    if (permission.includes(permissions)) {
       return next();
     }
 
