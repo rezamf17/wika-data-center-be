@@ -29,6 +29,7 @@ app.delete('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission
 
 // authentication
 app.post('/login', AuthController.loginUser)
+app.get('/logout', AuthController.logoutUser)
 
 // Error handling middleware (optional)
 app.use((err, req, res, next) => {

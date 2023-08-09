@@ -45,3 +45,7 @@ exports.loginUser = (req, res) => {
         }
     });
 };
+
+exports.logoutUser = (res) => {
+  res.json({ message: 'Logout berhasil' });
+}
