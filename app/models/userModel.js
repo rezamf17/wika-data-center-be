@@ -39,7 +39,7 @@ const insertUsers = (id_role, nama_lengkap, email, nip, password, status, create
                      '${status}',
                      '${format.ISOString(createdAt)}',
                      '${createdBy}')`
-                     console.log('SQL :',sql)
+                    //  console.log('SQL :',sql)
     connection.query(sql, (err, results) => {
         if (err) {
           return callback(err, null);
@@ -79,7 +79,7 @@ const updateUsersWithoutPassword = (id, nama_lengkap, email, role, nip, status, 
          created = '${format.ISOString(createdAt)}',
          createdBy = '${createdBy}'
          WHERE id = ${id}`
-         console.log(sql)
+        //  console.log(sql)
     connection.query(sql, (err, results) => {
         if (err) {
           return callback(err, null);
@@ -97,5 +97,26 @@ const updateUsersWithoutPassword = (id, nama_lengkap, email, role, nip, status, 
           return callback(null, results);
         });
     };
+  
+  const checkNIP = (nip, callback) => {
+    const sql = `SELECT * FROM user WHERE nip = '${nip}'`
+    connection.query(sql, (err, results) => {
+      if (err) {
+        return callback(err, null);
+      }
+      return callback(null, results);
+    });
+  }
 
-  module.exports = {getUsers, insertUsers, updateUsers, updateUsersWithoutPassword, deleteUser}
+  const checkEmail = (email, callback) => {
+    const sql = `SELECT * FROM user WHERE email = '${email}'`
+    // console.log('sql :',sql)
+    connection.query(sql, (err, results) => {
+      if (err) {
+        return callback(err, null);
+      }
+      return callback(null, results);
+    });
+  }
+
+  module.exports = {getUsers, insertUsers, updateUsers, updateUsersWithoutPassword, deleteUser, checkNIP, checkEmail}

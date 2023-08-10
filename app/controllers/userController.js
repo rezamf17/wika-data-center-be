@@ -25,16 +25,40 @@ exports.getUsers = (req, res) => {
 };
 
 exports.insertUsers = async (req, res) => {
-  const { id_role, nama_lengkap, email, nip, password, status, createdBy } = req.body
-  const hashPassword = await bcrypt.hash(password, 10)
-  User.insertUsers(id_role, nama_lengkap, email, nip, hashPassword, status, createdBy, (err) => {
+  const { id_role, nama_lengkap, email, nip, password, status, createdBy } = req.body;
+  const hashPassword = await bcrypt.hash(password, 10);
+
+  User.checkNIP(nip, (err, nipResult) => {
     if (err) {
-      console.error('Error inserted users:', err.message);
-      return res.status(500).json({ error: 'Failed to insert users.' });
+      console.error('Error checking NIP:', err.message);
+      return res.status(500).json({ error: 'Failed to check NIP.' });
     }
-    response(200, [], 'Success', res);
-  })
-}
+    console.log('nip1',nipResult.length)
+    if (nipResult.length != 0) {
+      return res.status(500).json({ code: 500, message: 'NIP is already used' });
+    }
+
+    User.checkEmail(email, (emailErr, emailResult) => {
+      if (emailErr) {
+        console.error('Error checking email:', emailErr.message);
+        return res.status(500).json({ error: 'Failed to check email.' });
+      }
+      // console.log('email', emailResult)
+      if (emailResult.length != 0) {
+        return res.status(500).json({ code: 500, message: 'Email is already used' });
+      }
+
+      User.insertUsers(id_role, nama_lengkap, email, nip, hashPassword, status, createdBy, (insertErr) => {
+        if (insertErr) {
+          console.error('Error inserting users:', insertErr.message);
+          return res.status(500).json({ error: 'Failed to insert users.' });
+        }
+
+        response(200, [], 'Success', res);
+      });
+    });
+  });
+};
 
 exports.updateUsers = async (req, res) => {
   const {id, nama_lengkap, email, role, nip, password, status, createdBy } = req.body
