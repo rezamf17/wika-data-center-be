@@ -1,6 +1,6 @@
 const User = require('../models/userModel')
 const response = require('../response/projectResponse')
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 
 exports.getUsers = (req, res) => {
     const { id_role, nama_lengkap, email, nip, status } = req.query
@@ -26,7 +26,7 @@ exports.getUsers = (req, res) => {
 
 exports.insertUsers = async (req, res) => {
   const { id_role, nama_lengkap, email, nip, password, status, createdBy } = req.body;
-  const hashPassword = await bcrypt.hash(password, 10);
+  const hashPassword = await bcryptjs.hash(password, 10);
 
   User.checkNIP(nip, (err, nipResult) => {
     if (err) {
@@ -62,7 +62,7 @@ exports.insertUsers = async (req, res) => {
 
 exports.updateUsers = async (req, res) => {
   const {id, nama_lengkap, email, role, nip, password, status, createdBy } = req.body
-  const hashPassword = await bcrypt.hash(password, 10)
+  const hashPassword = await bcryptjs.hash(password, 10)
   if(password != ""){
     User.updateUsers(id, nama_lengkap, email, role, nip, hashPassword, status, createdBy, (err) => {
       if (err) {

@@ -1,6 +1,6 @@
 const Auth = require('../models/authModel')
 const response = require('../response/projectResponse')
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const generateToken = (user, data) => {
@@ -17,7 +17,7 @@ exports.loginUser = (req, res) => {
     const { email, password } = req.body
     Auth.loginQuery(email, (err, user) => {
       const token = generateToken(req.body, user[0].id_role)
-        bcrypt.compare(password, user[0].password, (err, result) => {
+        bcryptjs.compare(password, user[0].password, (err, result) => {
             if (err) {
                 console.error('Error comparing passwords:', err);
                 return res.status(500).json({ message: 'Terjadi kesalahan saat login.' });
