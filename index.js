@@ -16,10 +16,14 @@ app.use(bodyParser.json({ limit: '10mb' }));
 // ... Add more routes here as needed
 
 // projects
-app.get('/project', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([2, 3, 4]), ProjectController.getProjects);
-app.post('/project', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([2, 3, 4]), ProjectController.insertProjects);
+app.get('/project', ProjectController.getProjects);
+app.post('/project', ProjectController.insertProjects);
 app.put('/project/:id', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([2, 4]), ProjectController.updateProjects);
 app.delete('/project/:id', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([2, 4]), ProjectController.deleteProjects);
+// app.get('/project', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([2, 3, 4]), ProjectController.getProjects);
+// app.post('/project', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([2, 3, 4]), ProjectController.insertProjects);
+// app.put('/project/:id', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([2, 4]), ProjectController.updateProjects);
+// app.delete('/project/:id', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([2, 4]), ProjectController.deleteProjects);
 
 //user
 

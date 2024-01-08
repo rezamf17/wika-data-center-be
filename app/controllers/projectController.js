@@ -6,8 +6,8 @@ const File = require('../models/fileModel')
 
 
 exports.getProjects = (req, res) => {
-    const { project_name, document_title, document_category, department, type, industry } = req.query
-    Project.getProjects(project_name, document_title, document_category, department, type, industry, (err, projects) => {
+    const { projectName, status, departemen } = req.query
+    Project.getProjects(projectName, status, departemen, (err, projects) => {
         if (err) {
           console.error('Error fetching projects:', err.message);
           return res.status(500).json({ error: 'Failed to fetch projects.' });
@@ -17,10 +17,10 @@ exports.getProjects = (req, res) => {
 };
 
 exports.insertProjects = async (req, res) => {
-    const { project_name, document_title, document_category, department, type, industry, createdBy } = req.body
-    var image1 = req.body.image
+    const { projectName, status, departemen, startProject, endProject, description, created, createdBy, updated, updatedBy } = req.body
+    // var image1 = req.body.image
     var idProject = 0
-    await Project.insertProjects(project_name, document_title, document_category, department, type, industry, createdBy,(err, projects) => {
+    await Project.insertProjects(projectName, status, departemen, startProject, endProject, description, created, createdBy, updated, updatedBy,(err, projects) => {
       if (err) {
         console.error('Error inserted projects:', err.message);
         // return res.status(500).json({ error: 'Failed to insert projects.' });
@@ -29,33 +29,33 @@ exports.insertProjects = async (req, res) => {
       idProject = projects.insertId
     });
 
-    image1.forEach(el => {
-      // Mendapatkan extension file gambar dari base64 string (misalnya .png, .jpg, dll.)
-      const extension = el.img.split(';')[0].split('/')[1];
-      console.log();
+  //   image1.forEach(el => {
+  //     // Mendapatkan extension file gambar dari base64 string (misalnya .png, .jpg, dll.)
+  //     const extension = el.img.split(';')[0].split('/')[1];
+  //     console.log();
 
-    // Membuat nama unik untuk file gambar
-    const filename = Date.now() + '.' + extension;
+  //   // Membuat nama unik untuk file gambar
+  //   const filename = Date.now() + '.' + extension;
 
-    // Menentukan path untuk menyimpan gambar di dalam folder "uploads"
-    const imagePath = path.join(__dirname, 'uploads', filename);
+  //   // Menentukan path untuk menyimpan gambar di dalam folder "uploads"
+  //   const imagePath = path.join(__dirname, 'uploads', filename);
 
-    // Menghapus prefix "data:image/png;base64," dari image1 agar tersisa data gambar saja
-    const base64Data = el.img.replace(/^data:image\/\w+;base64,/, '');
-      // Menyimpan data gambar ke dalam file dengan path yang ditentukan
-    fs.writeFile(imagePath, base64Data, { encoding: 'base64' }, function (err) {
-      if (err) {
-        console.error('Error saving image:', err);
-        // return res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan gambar.' });
-      }
-      File.insertFile(idProject,filename,createdBy,(err) => {
-        if (err) {
-          console.error('Error inserted files:', err.message);
-          // return res.status(500).json({ error: 'Failed to insert files.' });
-        }
-     });
-    });
-  });
+  //   // Menghapus prefix "data:image/png;base64," dari image1 agar tersisa data gambar saja
+  //   const base64Data = el.img.replace(/^data:image\/\w+;base64,/, '');
+  //     // Menyimpan data gambar ke dalam file dengan path yang ditentukan
+  //   fs.writeFile(imagePath, base64Data, { encoding: 'base64' }, function (err) {
+  //     if (err) {
+  //       console.error('Error saving image:', err);
+  //       // return res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan gambar.' });
+  //     }
+  //     File.insertFile(idProject,filename,createdBy,(err) => {
+  //       if (err) {
+  //         console.error('Error inserted files:', err.message);
+  //         // return res.status(500).json({ error: 'Failed to insert files.' });
+  //       }
+  //    });
+  //   });
+  // });
   response(200, [], 'Success', res);
 };
 

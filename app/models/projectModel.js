@@ -1,14 +1,12 @@
 const connection = require('../../connection')
 const format = require('../tools/FormatDate')
 
-const getProjects = (project_name, document_title, document_category, department, type, industry, callback) => {
+const getProjects = (projectName, status, departemen, callback) => {
          const sql = `SELECT * FROM project WHERE 
-                project_name LIKE '%${project_name}%'
-                AND document_title LIKE '%${document_title}%' 
-                AND document_category LIKE '%${document_category}%' 
-                AND department LIKE '%${department}%' 
-                AND type Like '%${type}%' 
-                AND industry LIKE '%${industry}%'`
+                projectName LIKE '%${projectName}%'
+                AND status LIKE '%${status}%' 
+                AND departemen LIKE '%${departemen}%'`
+                console.log('print sql',sql)
     connection.query(sql, (err, results) => {
         if (err) {
           return callback(err, null);
@@ -17,26 +15,31 @@ const getProjects = (project_name, document_title, document_category, department
       });
   };
 
-const insertProjects = (project_name, document_title, document_category, department, type, industry, createdBy, callback) => {
+const insertProjects = (projectName, status, departemen, startProject, endProject, description, created, createdBy, updated, updatedBy, callback) => {
   const createdAt = new Date().toISOString();
   const sql = `INSERT INTO project 
-              (project_name, 
-              document_title, 
-              document_category, 
-              department, 
-              type, 
-              industry,
-              createdBy,
-              created) VALUES 
-              ('${project_name}', 
-              '${document_title}', 
-              '${document_category}', 
-              '${department}', 
-              '${type}', 
-              '${industry}',
-              '${createdBy}',
-              '${format.ISOString(createdAt)}')`
+              (projectName, 
+              status, 
+              departemen, 
+              startProject, 
+              endProject, 
+              description, 
+              created, 
+              createdBy, 
+              updated, 
+              updatedBy) VALUES 
+              ('${projectName}', 
+              '${status}', 
+              '${departemen}', 
+              '${startProject}', 
+              '${endProject}', 
+              '${description}', 
+              '${created}', 
+              '${createdBy}', 
+              '${updated}', 
+              '${updatedBy}')`
     connection.query(sql, (err, results) => {
+      console.log('res',results)
         if (err) {
           return callback(err, null);
         }
