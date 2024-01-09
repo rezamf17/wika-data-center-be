@@ -60,8 +60,8 @@ exports.insertProjects = async (req, res) => {
 };
 
 exports.updateProjects = (req, res) => {
-    const {id, project_name, document_title, document_category, department, type, industry, createdBy } = req.body
-    Project.updateProjects(id, project_name, document_title, document_category, department, type, industry, createdBy,(err, projects) => {
+    const {id, projectName, status, departemen, startProject, endProject, description, created, createdBy, updated, updatedBy } = req.body
+    Project.updateProjects(id, projectName, status, departemen, startProject, endProject, description, created, createdBy, updated, updatedBy,(err, projects) => {
         if (err) {
           console.error('Error updated projects:', err.message);
           return res.status(500).json({ error: 'Failed to updated projects.' });

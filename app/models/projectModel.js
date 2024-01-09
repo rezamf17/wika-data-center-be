@@ -6,7 +6,7 @@ const getProjects = (projectName, status, departemen, callback) => {
                 projectName LIKE '%${projectName}%'
                 AND status LIKE '%${status}%' 
                 AND departemen LIKE '%${departemen}%'`
-                console.log('print sql',sql)
+                // console.log('print sql',sql)
     connection.query(sql, (err, results) => {
         if (err) {
           return callback(err, null);
@@ -47,18 +47,21 @@ const insertProjects = (projectName, status, departemen, startProject, endProjec
       });
   };
 
-const updateProjects = (id, project_name, document_title, document_category, department, type, industry, createdBy, callback) => {
+const updateProjects = (id, projectName, status, departemen, startProject, endProject, description, created, createdBy, updated, updatedBy, callback) => {
   const createdAt = new Date().toISOString();
   const sql = `UPDATE project SET
-                project_name = '${project_name}', 
-                document_title = '${document_title}',
-                document_category = '${document_category}', 
-                department = '${department}', 
-                type = '${type}', 
-                industry = '${industry}',
+  projectName = '${projectName}', 
+                status = '${status}', 
+                departemen = '${departemen}', 
+                startProject = '${startProject}', 
+                endProject = '${endProject}',
+                description = '${description}',
+                created = '${format.ISOString(createdAt)}',
                 createdBy = '${createdBy}',
-                created = '${format.ISOString(createdAt)}'
+                updated = '${format.ISOString(createdAt)}',
+                updatedBy = '${updatedBy}'
                 WHERE id = ${id}`
+                console.log(sql)
     connection.query(sql, (err, results) => {
         if (err) {
           return callback(err, null);
