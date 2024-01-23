@@ -3,6 +3,7 @@ const response = require('../response/projectResponse')
 const fs = require('fs')
 const path = require('path')
 const File = require('../models/fileModel')
+const { log } = require('console')
 
 
 exports.getProjects = (req, res) => {
@@ -18,9 +19,9 @@ exports.getProjects = (req, res) => {
 
 exports.insertProjects = async (req, res) => {
     const { projectName, status, departemen, startProject, endProject, description, created, createdBy, updated, updatedBy } = req.body
-    // var image1 = req.body.image
-    var idProject = 0
-    await Project.insertProjects(projectName, status, departemen, startProject, endProject, description, created, createdBy, updated, updatedBy,(err, projects) => {
+    let image1 = req.body.image
+    let idProject = 0
+    Project.insertProjects(projectName, status, departemen, startProject, endProject, description, created, createdBy, updated, updatedBy,(err, projects) => {
       if (err) {
         console.error('Error inserted projects:', err.message);
         // return res.status(500).json({ error: 'Failed to insert projects.' });
@@ -28,34 +29,34 @@ exports.insertProjects = async (req, res) => {
       // console.log("projects value: ",projects);
       idProject = projects.insertId
     });
+    image1.forEach(el => {
+      console.log('body image', el);
+      // Mendapatkan extension file gambar dari base64 string (misalnya .png, .jpg, dll.)
+      const extension = el.img.split(';')[0].split('/')[1];
+      // console.log();
 
-  //   image1.forEach(el => {
-  //     // Mendapatkan extension file gambar dari base64 string (misalnya .png, .jpg, dll.)
-  //     const extension = el.img.split(';')[0].split('/')[1];
-  //     console.log();
+    // Membuat nama unik untuk file gambar
+    const filename = Date.now() + '.' + extension;
 
-  //   // Membuat nama unik untuk file gambar
-  //   const filename = Date.now() + '.' + extension;
+    // Menentukan path untuk menyimpan gambar di dalam folder "uploads"
+    const imagePath = path.join(__dirname, 'uploads', filename);
 
-  //   // Menentukan path untuk menyimpan gambar di dalam folder "uploads"
-  //   const imagePath = path.join(__dirname, 'uploads', filename);
-
-  //   // Menghapus prefix "data:image/png;base64," dari image1 agar tersisa data gambar saja
-  //   const base64Data = el.img.replace(/^data:image\/\w+;base64,/, '');
-  //     // Menyimpan data gambar ke dalam file dengan path yang ditentukan
-  //   fs.writeFile(imagePath, base64Data, { encoding: 'base64' }, function (err) {
-  //     if (err) {
-  //       console.error('Error saving image:', err);
-  //       // return res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan gambar.' });
-  //     }
-  //     File.insertFile(idProject,filename,createdBy,(err) => {
-  //       if (err) {
-  //         console.error('Error inserted files:', err.message);
-  //         // return res.status(500).json({ error: 'Failed to insert files.' });
-  //       }
-  //    });
-  //   });
-  // });
+    // Menghapus prefix "data:image/png;base64," dari image1 agar tersisa data gambar saja
+    const base64Data = el.img.replace(/^data:image\/\w+;base64,/, '');
+      // Menyimpan data gambar ke dalam file dengan path yang ditentukan
+    fs.writeFile(imagePath, base64Data, { encoding: 'base64' }, function (err) {
+      if (err) {
+        console.error('Error saving image:', err);
+        // return res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan gambar.' });
+      }
+      File.insertFile(idProject,filename,createdBy, updatedBy, (err) => {
+        if (err) {
+          console.error('Error inserted files:', err.message);
+          // return res.status(500).json({ error: 'Failed to insert files.' });
+        }
+     });
+    });
+  });
   response(200, [], 'Success', res);
 };
 

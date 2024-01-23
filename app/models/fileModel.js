@@ -1,19 +1,23 @@
 const connection = require('../../connection')
 const format = require('../tools/FormatDate')
 
-const insertFile = (id_project, filename, createdBy,callback) => {
+const insertFile = (id_project, filename, createdBy, updatedBy, callback) => {
     const createdAt = new Date().toISOString();
     const sql = `INSERT INTO file 
                 (id_project, 
                 file_name,
                 created,
-                createdBy 
+                createdBy,
+                updated,
+                updatedBy 
                 ) VALUES 
                 ('${id_project}', 
                 '${filename}', 
                 '${format.ISOString(createdAt)}', 
-                '${createdBy}')`
-                // console.log("SQL :",sql);
+                '${createdBy}',
+                '${format.ISOString(createdAt)}',
+                '${updatedBy}')`
+                console.log("SQL :",sql);
       connection.query(sql, (err, results) => {
           if (err) {
             return callback(err, null);
