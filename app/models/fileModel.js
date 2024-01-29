@@ -35,4 +35,23 @@ const getDetailFile = (id_project, callback) => {
     return callback(null, results);
   });
 }
-module.exports = { insertFile, getDetailFile }
+
+const updateFile = (id, id_project, file_name, created, createdBy, updatedBy, callback) => {
+  const createdAt = new Date().toISOString();
+  const sql = `UPDATE file SET
+  id_project = '${id_project}', 
+  file_name = '${file_name}', 
+  created = '${created}', 
+  createdBy = '${createdBy}', 
+  updated = '${format.ISOString(createdAt)}', 
+  updatedBy = '${updatedBy}'
+  WHERE id = ${id}`
+  console.log(sql)
+  connection.query(sql, (err, results) => {
+    if (err) {
+      return callback(err, null);
+    }
+    return callback(null, results);
+  });
+}
+module.exports = { insertFile, getDetailFile, updateFile }
