@@ -3,7 +3,6 @@ const response = require('../response/projectResponse')
 const fs = require('fs')
 const path = require('path')
 const File = require('../models/fileModel')
-const { log } = require('console')
 
 
 exports.getProjects = (req, res) => {

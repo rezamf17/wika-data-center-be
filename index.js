@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 const ProjectController = require('./app/controllers/projectController')
+const FileController = require('./app/controllers/fileController')
 const UserController = require('./app/controllers/userController')
 const AuthController = require('./app/controllers/authController')
 const AuthMiddleware = require('./app/middleware/authMiddleware')
@@ -35,6 +36,9 @@ app.delete('/user', UserController.deleteUsers)
 // app.post('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.insertUsers)
 // app.put('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.updateUsers)
 // app.delete('/user', AuthMiddleware.isAuthenticated, AuthMiddleware.hasPermission([1, 4]), UserController.deleteUsers)
+
+//file
+app.get('/file/:id', FileController.getDetailFile)
 
 // authentication
 app.post('/login', AuthController.loginUser)
