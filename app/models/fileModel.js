@@ -46,7 +46,7 @@ const updateFile = (id, id_project, file_name, created, createdBy, updatedBy, ca
   updated = '${format.ISOString(createdAt)}', 
   updatedBy = '${updatedBy}'
   WHERE id = ${id}`
-  console.log(sql)
+  // console.log(sql)
   connection.query(sql, (err, results) => {
     if (err) {
       return callback(err, null);
@@ -54,4 +54,15 @@ const updateFile = (id, id_project, file_name, created, createdBy, updatedBy, ca
     return callback(null, results);
   });
 }
-module.exports = { insertFile, getDetailFile, updateFile }
+
+const getImageDelete = (id, callback) => {
+  const sql = `SELECT * FROM file WHERE id = ${id}`
+  // console.log('SQL', sql);
+  connection.query(sql, (err, results) => {
+    if (err) {
+      return callback(err, null);
+    }
+    return callback(null, results);
+  });
+}
+module.exports = { insertFile, getDetailFile, updateFile, getImageDelete }

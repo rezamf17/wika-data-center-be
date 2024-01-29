@@ -19,7 +19,7 @@ exports.getDetailFile = (req, res) => {
 
 exports.updateFile = (req, res) => {
   const { id, id_project, file_name, created, createdBy, updatedBy, } = req.body
-  console.log('update req', req);
+  // console.log('update req', req);
   const extension = file_name.split(';')[0].split('/')[1];
   const filename = Date.now() + '.' + extension;
   const imagePath = path.join(__dirname, 'uploads', filename);
@@ -28,15 +28,32 @@ exports.updateFile = (req, res) => {
   fs.writeFile(imagePath, base64Data, { encoding: 'base64' }, function (err) {
     if (err) {
       console.error('Error saving image:', err);
-      // return res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan gambar.' });
+      return res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan gambar.' });
     }
+
+    // Update file in the database
     File.updateFile(id, idProject, filename, created, createdBy, updatedBy, (err, file) => {
       if (err) {
-        console.error('Error updated file:', err.message);
-        return res.status(500).json({ error: 'Failed to updated file.' });
+        console.error('Error updating file:', err.message);
+        return res.status(500).json({ error: 'Failed to update file.' });
       }
-      response(200, [], 'Success', res);
+    })
+  });
+  File.getImageDelete(id, (err, getFile) => {
+    // console.log('id gaess', getFile[0].file_name);
+    if (err) {
+      console.error('Error get File', err);
+    }
+    // Remove the old file from the server
+    const oldImagePath = path.join(__dirname, 'uploads', getFile[0].file_name);
+    fs.unlink(oldImagePath, (err) => {
+      if (err) {
+        console.error('Error deleting old image:', err);
+      } else {
+        console.log('Old image deleted successfully');
+      }
     });
   });
+  response(200, [], 'Success', res);
 
 }
