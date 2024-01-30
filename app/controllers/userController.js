@@ -3,8 +3,9 @@ const response = require('../response/projectResponse')
 const bcryptjs = require('bcryptjs');
 
 exports.getUsers = (req, res) => {
-    const { id_role, nama_lengkap, email, nip, status } = req.query
-    User.getUsers( id_role, nama_lengkap, email, nip, status, (err, users) => {
+    const { search } = req.query
+    console.log('request get users',req.query);
+    User.getUsers( search, (err, users) => {
         if (err) {
           console.error('Error fetching users:', err.message);
           return res.status(500).json({ error: 'Failed to fetch users.' });
@@ -27,7 +28,7 @@ exports.getUsers = (req, res) => {
 exports.insertUsers = async (req, res) => {
   const { role_code, email, nama_lengkap, password, nip, no_hp, status, createdBy, updatedBy } = req.body;
   const hashPassword = await bcryptjs.hash(password, 10);
-  console.log('request insert user',req);
+  // console.log('request insert user',req);
 
   User.checkNIP(nip, (err, nipResult) => {
     if (err) {

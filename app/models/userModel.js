@@ -1,9 +1,14 @@
 const connection = require('../../connection')
 const format = require('../tools/FormatDate')
 
-const getUsers = (role_code, nama_lengkap, email, nip, status, callback) => {
-         const sql = `SELECT * FROM user WHERE role_code = '${role_code}'`
-        //  console.log(sql)
+const getUsers = (search, callback) => {
+         const sql = `SELECT * FROM user 
+            WHERE role_code LIKE '%${search}%' OR
+            email LIKE '%${search}%' OR
+            nama_lengkap LIKE '%${search}%' OR
+            nip LIKE '%${search}%' OR
+            nomor_hp LIKE '%${search}%'`
+         console.log('sql get userts',sql)
     connection.query(sql, (err, results) => {
         if (err) {
           return callback(err, null);
