@@ -55,5 +55,30 @@ exports.updateFile = (req, res) => {
     });
   });
   response(200, [], 'Success', res);
+}
 
+exports.deleteFile = (req, res) => {
+  const { id } = req.body
+  File.getImageDelete(id, (err, getFile) => {
+    console.log('get file gaess', getFile);
+    if (err) {
+      return console.error('Error get File', err);
+    }
+    // Remove the old file from the server
+    const oldImagePath = path.join(__dirname, 'uploads', getFile[0].file_name);
+    fs.unlink(oldImagePath, (err) => {
+      if (err) {
+        console.error('Error deleting old image:', err);
+      } else {
+        console.log('Old image deleted successfully');
+      }
+    });
+  });
+  File.deleteFile(id, (err, file) => {
+    if (err) {
+      console.error('Error deleted file:', err.message);
+      return res.status(500).json({ error: 'Failed to deleted file.' });
+    }
+  });
+  response(200, [], 'Success', res);
 }

@@ -40,6 +40,7 @@ app.delete('/user', UserController.deleteUsers)
 //file
 app.get('/file/:id', FileController.getDetailFile)
 app.put('/file/:id', FileController.updateFile)
+app.delete('/file/:id', FileController.deleteFile)
 
 // authentication
 app.post('/login', AuthController.loginUser)

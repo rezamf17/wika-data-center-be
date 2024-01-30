@@ -57,7 +57,7 @@ const updateFile = (id, id_project, file_name, created, createdBy, updatedBy, ca
 
 const getImageDelete = (id, callback) => {
   const sql = `SELECT * FROM file WHERE id = ${id}`
-  // console.log('SQL', sql);
+  console.log('SQL getimage delete', sql);
   connection.query(sql, (err, results) => {
     if (err) {
       return callback(err, null);
@@ -65,4 +65,14 @@ const getImageDelete = (id, callback) => {
     return callback(null, results);
   });
 }
-module.exports = { insertFile, getDetailFile, updateFile, getImageDelete }
+
+const deleteFile = (id, callback) => {
+  const sql =  `DELETE FROM file WHERE id = ${id}`
+  connection.query(sql, (err, results) => {
+    if (err) {
+      return callback(err, null);
+    }
+    return callback(null, results);
+  });
+}
+module.exports = { insertFile, getDetailFile, updateFile, getImageDelete, deleteFile }
