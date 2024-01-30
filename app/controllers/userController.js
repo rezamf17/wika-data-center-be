@@ -25,8 +25,9 @@ exports.getUsers = (req, res) => {
 };
 
 exports.insertUsers = async (req, res) => {
-  const { id_role, nama_lengkap, email, nip, password, status, createdBy } = req.body;
+  const { role_code, email, nama_lengkap, password, nip, no_hp, status, createdBy, updatedBy } = req.body;
   const hashPassword = await bcryptjs.hash(password, 10);
+  console.log('request insert user',req);
 
   User.checkNIP(nip, (err, nipResult) => {
     if (err) {
@@ -48,7 +49,7 @@ exports.insertUsers = async (req, res) => {
         return res.status(500).json({ code: 500, message: 'Email is already used' });
       }
 
-      User.insertUsers(id_role, nama_lengkap, email, nip, hashPassword, status, createdBy, (insertErr) => {
+      User.insertUsers(role_code, email, nama_lengkap, nip, hashPassword, no_hp, status, createdBy, updatedBy, (insertErr) => {
         if (insertErr) {
           console.error('Error inserting users:', insertErr.message);
           return res.status(500).json({ error: 'Failed to insert users.' });

@@ -1,15 +1,8 @@
 const connection = require('../../connection')
 const format = require('../tools/FormatDate')
 
-const getUsers = (id_role, nama_lengkap, email, nip, status, callback) => {
-         const sql = `SELECT user.id, user.id_role, user.email, user.nama_lengkap, user.nip, user.status, role.rolename as rolename
-         FROM user
-         JOIN role ON user.id_role = role.id
-         AND nama_lengkap LIKE '%${nama_lengkap}%'
-         AND id_role LIKE '%${id_role}%'
-         AND email LIKE '%${email}%' 
-         AND nip LIKE '%${nip}%' 
-         AND status LIKE '%${status}%'`
+const getUsers = (role_code, nama_lengkap, email, nip, status, callback) => {
+         const sql = `SELECT * FROM user WHERE role_code = '${role_code}'`
         //  console.log(sql)
     connection.query(sql, (err, results) => {
         if (err) {
@@ -20,25 +13,31 @@ const getUsers = (id_role, nama_lengkap, email, nip, status, callback) => {
   };
 
 
-const insertUsers = (id_role, nama_lengkap, email, nip, password, status, createdBy, callback) => {
+const insertUsers = (role_code, email, nama_lengkap, nip, password, no_hp, status, createdBy, updatedBy, callback) => {
          const createdAt = new Date().toISOString();
          const sql = `INSERT INTO user 
-                     (id_role,
-                     nama_lengkap, 
+                     (role_code, 
                      email, 
+                     nama_lengkap, 
                      nip, 
-                     password, 
+                     password,
+                     nomor_hp,
                      status,
                      created,
-                     createdBy) VALUES 
-                     ('${id_role}',
-                    '${nama_lengkap}', 
+                     createdBy,
+                     updated,
+                     updatedBy) VALUES 
+                     ('${role_code}',
                      '${email}', 
+                     '${nama_lengkap}', 
                      '${nip}', 
                      '${password}', 
+                     '${no_hp}', 
                      '${status}',
                      '${format.ISOString(createdAt)}',
-                     '${createdBy}')`
+                     '${createdBy}',
+                     '${format.ISOString(createdAt)}',
+                     '${updatedBy}')`
                     //  console.log('SQL :',sql)
     connection.query(sql, (err, results) => {
         if (err) {
