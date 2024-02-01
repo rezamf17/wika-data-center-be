@@ -53,17 +53,18 @@ const insertUsers = (role_code, email, nama_lengkap, nip, password, no_hp, statu
       });
   };
 
-const updateUsers = (id, nama_lengkap, email, role, nip, password, status, createdBy, callback) => {
+const updateUsers = (id, role_code, email, nama_lengkap, nip, password, nomor_hp, status, updatedBy, callback) => {
          const createdAt = new Date().toISOString();
          const sql = `UPDATE user SET 
-         nama_lengkap = '${nama_lengkap}', 
+         role_code = '${role_code}', 
          email = '${email}',
-         role = '${role}', 
+         nama_lengkap = '${nama_lengkap}', 
          nip = '${nip}', 
          password = '${password}', 
+         nomor_hp = '${nomor_hp}',  
          status = '${status}',
-         created = '${format.ISOString(createdAt)}',
-         createdBy = '${createdBy}'
+         updated = '${format.ISOString(createdAt)}',
+         updatedBy = '${updatedBy}'
          WHERE id = ${id}`
     connection.query(sql, (err, results) => {
         if (err) {
