@@ -66,7 +66,7 @@ exports.updateUsers = async (req, res) => {
   const {id, role_code, email, nama_lengkap, nip, password, nomor_hp, status, updatedBy } = req.body
   const hashPassword = await bcryptjs.hash(password, 10)
   // console.log('request update users', req.body);
-  if(password != ""){
+  if(password.length != 0){
     User.updateUsers(id, role_code, email, nama_lengkap, nip, hashPassword, nomor_hp, status, updatedBy, (err) => {
       if (err) {
         console.error('Error update users:', err.message);
@@ -75,7 +75,7 @@ exports.updateUsers = async (req, res) => {
       response(200, [], 'Success', res);
     })
   }else{
-    User.updateUsersWithoutPassword(id, role_code, email, nama_lengkap, nip, password, nomor_hp, status, updatedBy, (err) => {
+    User.updateUsersWithoutPassword(id, role_code, email, nama_lengkap, nip, nomor_hp, status, updatedBy, (err) => {
       if (err) {
         console.error('Error update users:', err.message);
         return res.status(500).json({ error: 'Failed to update users.' });
