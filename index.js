@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 const ProjectController = require('./app/controllers/projectController')
+const MemberController = require('./app/controllers/memberController')
 const FileController = require('./app/controllers/fileController')
 const UserController = require('./app/controllers/userController')
 const AuthController = require('./app/controllers/authController')
@@ -41,6 +42,9 @@ app.delete('/user', UserController.deleteUsers)
 app.get('/file/:id', FileController.getDetailFile)
 app.put('/file/:id', FileController.updateFile)
 app.delete('/file/:id', FileController.deleteFile)
+
+//member
+app.post('/member', MemberController.insertMember)
 
 // authentication
 app.post('/login', AuthController.loginUser)

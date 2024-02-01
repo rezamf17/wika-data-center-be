@@ -38,7 +38,7 @@ const insertProjects = (projectName, status, departemen, startProject, endProjec
               '${createdBy}', 
               '${updated}', 
               '${updatedBy}')`
-              console.log('insert project model', sql);
+              // console.log('insert project model', sql);
     connection.query(sql, (err, results) => {
       // console.log('res',results)
         if (err) {
