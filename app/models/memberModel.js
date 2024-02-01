@@ -40,4 +40,15 @@ const insertMember = (id_project, id_user, createdBy, updatedBy, callback) => {
 	});
 }
 
-module.exports = { insertMember }	
+const insertMemberValidation = (id, callback) => {
+	const sql = `SELECT * FROM user WHERE id = ${id}`
+	console.log(sql);
+	connection.query(sql, (err, results) => {
+		if (err) {
+			return callback(err, null);
+		}
+		return callback(null, results);
+	});
+}
+
+module.exports = { insertMember, insertMemberValidation }	
