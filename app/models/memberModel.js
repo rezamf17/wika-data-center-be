@@ -42,7 +42,7 @@ const insertMember = (id_project, id_user, createdBy, updatedBy, callback) => {
 
 const insertMemberValidation = (id, callback) => {
 	const sql = `SELECT * FROM user WHERE id = ${id}`
-	console.log(sql);
+	// console.log(sql);
 	connection.query(sql, (err, results) => {
 		if (err) {
 			return callback(err, null);
@@ -51,4 +51,15 @@ const insertMemberValidation = (id, callback) => {
 	});
 }
 
-module.exports = { insertMember, insertMemberValidation }	
+const insertExistMember = (id_project, id_user, callback) => {
+	const sql = `SELECT * FROM proyek_member WHERE id_project = ${id_project} AND id_user = ${id_user}`
+	// console.log(sql);
+	connection.query(sql, (err, results) => {
+		if (err) {
+			return callback(err, null);
+		}
+		return callback(null, results);
+	});
+}
+
+module.exports = { insertMember, insertMemberValidation, insertExistMember }	

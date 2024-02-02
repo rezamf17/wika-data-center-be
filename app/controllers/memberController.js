@@ -9,6 +9,12 @@ exports.insertMember = (req, res) => {
 			return res.status(500).json({ code : "22", message: 'Gagal Insert Member' });
 		}
 	})
+	Member.insertExistMember(id_project, id_user, (err, member) => {
+		// console.log('insert exist member', member);
+		if (member.length != 0) {
+			return res.status(500).json({ code : "21", message: 'Member Telah Terdaftar' });
+		}
+	})
 	Member.insertMember(id_project, id_user, createdBy, updatedBy, (err, member) => {
 		if (err) {
 			console.error('Error inserted member:', err.message);
