@@ -13,13 +13,25 @@ exports.insertMember = (req, res) => {
 		// console.log('insert exist member', member);
 		if (member.length != 0) {
 			return res.status(500).json({ code : "21", message: 'Member Telah Terdaftar' });
+		}else{
+			Member.insertMember(id_project, id_user, createdBy, updatedBy, (err, member) => {
+				if (err) {
+					console.error('Error inserted member:', err.message);
+				}
+				// console.log("projects value: ",projects);
+				response(200, [], 'Success', res);
+			});
 		}
 	})
-	Member.insertMember(id_project, id_user, createdBy, updatedBy, (err, member) => {
+}
+
+exports.getMember = (req, res) => {
+	const { pj_proyek } = req.query 
+	Member.getMember(pj_proyek, (err, member) => {
 		if (err) {
-			console.error('Error inserted member:', err.message);
-		}
-		// console.log("projects value: ",projects);
-		response(200, [], 'Success', res);
-	});
+			console.error('Error fetching member:', err.message);
+			return res.status(500).json({ error: 'Failed to fetch member.' });
+		  }
+		  response(200, member, 'Success', res);
+	})
 }

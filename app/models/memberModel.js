@@ -1,11 +1,12 @@
 const connection = require('../../connection')
 const format = require('../tools/FormatDate')
 
-const getMember = (projectName, status, departemen, callback) => {
-	const sql = `SELECT * FROM project WHERE 
-                projectName LIKE '%${projectName}%'
-                AND status LIKE '%${status}%' 
-                AND departemen LIKE '%${departemen}%'`
+const getMember = (pj_proyek, callback) => {
+	const sql = `SELECT proyek_member.id, user.nip, user.email, user.role_code, project.projectName, user.nama_lengkap, project.pj_proyek
+				FROM proyek_member
+				JOIN project ON project.id = proyek_member.id_project
+				JOIN user ON user.id = proyek_member.id_user
+				WHERE project.pj_proyek LIKE '%${pj_proyek}%'`
 	// console.log('print sql',sql)
 	connection.query(sql, (err, results) => {
 		if (err) {
@@ -62,4 +63,4 @@ const insertExistMember = (id_project, id_user, callback) => {
 	});
 }
 
-module.exports = { insertMember, insertMemberValidation, insertExistMember }	
+module.exports = { insertMember, insertMemberValidation, insertExistMember, getMember }	

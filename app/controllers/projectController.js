@@ -17,10 +17,10 @@ exports.getProjects = (req, res) => {
 };
 
 exports.insertProjects = async (req, res) => {
-    const { projectName, status, departemen, startProject, endProject, description, created, createdBy, updated, updatedBy } = req.body
+    const { projectName, status, departemen, startProject, endProject, description, pj_proyek, created, createdBy, updated, updatedBy } = req.body
     let image1 = req.body.image
     let idProject = 0
-    Project.insertProjects(projectName, status, departemen, startProject, endProject, description, created, createdBy, updated, updatedBy,(err, projects) => {
+    Project.insertProjects(projectName, status, departemen, startProject, endProject, description, pj_proyek, created, createdBy, updated, updatedBy,(err, projects) => {
       if (err) {
         console.error('Error inserted projects:', err.message);
         // return res.status(500).json({ error: 'Failed to insert projects.' });

@@ -15,7 +15,7 @@ const getProjects = (projectName, status, departemen, callback) => {
       });
   };
 
-const insertProjects = (projectName, status, departemen, startProject, endProject, description, created, createdBy, updated, updatedBy, callback) => {
+const insertProjects = (projectName, status, departemen, startProject, endProject, description, pj_proyek, created, createdBy, updated, updatedBy, callback) => {
   const createdAt = new Date().toISOString();
   const sql = `INSERT INTO project 
               (projectName, 
@@ -23,7 +23,8 @@ const insertProjects = (projectName, status, departemen, startProject, endProjec
               departemen, 
               startProject, 
               endProject, 
-              description, 
+              description,
+              pj_proyek, 
               created, 
               createdBy, 
               updated, 
@@ -34,6 +35,7 @@ const insertProjects = (projectName, status, departemen, startProject, endProjec
               '${startProject}', 
               '${endProject}', 
               '${description}', 
+              '${pj_proyek}', 
               '${created}', 
               '${createdBy}', 
               '${updated}', 
