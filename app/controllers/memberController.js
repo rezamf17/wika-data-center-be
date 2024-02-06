@@ -25,6 +25,30 @@ exports.insertMember = (req, res) => {
 	})
 }
 
+exports.updateMember = (req, res) => {
+	const { id, id_project, id_user, createdBy, updatedBy } = req.body
+	Member.insertMemberValidation(id_user, (err, member) => {
+		// console.log('insert member', member[0].role_code);
+		if (member[0].role_code != 'MP') {
+			return res.status(500).json({ code : "22", message: 'Gagal Update Member' });
+		}
+		Member.insertExistMember(id_project, id_user, (err, member2) => {
+			// console.log('insert exist member', member);
+			if (member2.length != 0) {
+				return res.status(500).json({ code : "21", message: 'Member Telah Terdaftar' });
+			}else{
+				Member.updateMember(id, id_user, id_project, createdBy, (err, member) => {
+					if (err) {
+						console.error('Error updated member:', err.message);
+					}
+					// console.log("projects value: ",projects);
+					response(200, [], 'Success', res);
+				});
+			}
+		})
+	})
+}
+
 exports.getMember = (req, res) => {
 	const { pj_proyek } = req.query 
 	Member.getMember(pj_proyek, (err, member) => {

@@ -64,7 +64,7 @@ const updateProjects = (id, projectName, status, departemen, startProject, endPr
                 updated = '${format.ISOString(createdAt)}',
                 updatedBy = '${updatedBy}'
                 WHERE id = ${id}`
-                console.log(sql)
+                // console.log(sql)
     connection.query(sql, (err, results) => {
         if (err) {
           return callback(err, null);
