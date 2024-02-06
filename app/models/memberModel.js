@@ -79,4 +79,14 @@ const insertExistMember = (id_project, id_user, callback) => {
   });
 }
 
-module.exports = { insertMember, insertMemberValidation, insertExistMember, getMember, updateMember }	
+const deleteMember = (id, callback) => {
+  const sql = `DELETE FROM proyek_member WHERE id = ${id}`
+    connection.query(sql, (err, results) => {
+        if (err) {
+          return callback(err, null);
+        }
+        return callback(null, results);
+      });
+  };
+
+module.exports = { insertMember, insertMemberValidation, insertExistMember, getMember, updateMember, deleteMember }	

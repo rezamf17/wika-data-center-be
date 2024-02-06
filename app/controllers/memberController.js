@@ -19,7 +19,7 @@ exports.insertMember = (req, res) => {
 					console.error('Error inserted member:', err.message);
 				}
 				// console.log("projects value: ",projects);
-				response(200, [], 'Success', res);
+				response(200, [], 'Insert Success', res);
 			});
 		}
 	})
@@ -42,11 +42,22 @@ exports.updateMember = (req, res) => {
 						console.error('Error updated member:', err.message);
 					}
 					// console.log("projects value: ",projects);
-					response(200, [], 'Success', res);
+					response(200, [], 'Update Success', res);
 				});
 			}
 		})
 	})
+}
+
+exports.deleteMember = (req, res) => {
+  const { id } = req.body
+  Member.deleteMember(id,(err, member) => {
+      if (err) {
+        console.error('Error deleted projects:', err.message);
+        return res.status(500).json({ error: 'Failed to deleted member.' });
+      }
+      response(200, [], 'Delete Success', res);
+    });
 }
 
 exports.getMember = (req, res) => {

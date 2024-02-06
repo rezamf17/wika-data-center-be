@@ -47,6 +47,7 @@ app.delete('/file/:id', FileController.deleteFile)
 app.post('/member', MemberController.insertMember)
 app.get('/member', MemberController.getMember)
 app.put('/member', MemberController.updateMember)
+app.delete('/member', MemberController.deleteMember)
 
 // authentication
 app.post('/login', AuthController.loginUser)
