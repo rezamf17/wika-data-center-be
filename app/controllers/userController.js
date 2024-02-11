@@ -33,27 +33,27 @@ exports.insertUsers = async (req, res) => {
   User.checkNIP(nip, (err, nipResult) => {
     if (err) {
       console.error('Error checking NIP:', err.message);
-      return res.status(500).json({ error: 'Failed to check NIP.' });
+      return res.json({code: "87", error: 'Failed to check NIP.' });
     }
     console.log('nip1',nipResult.length)
     if (nipResult.length != 0) {
-      return res.status(500).json({ code: 500, message: 'NIP is already used' });
+      return res.json({ code: "88", message: 'NIP is already used' });
     }
 
     User.checkEmail(email, (emailErr, emailResult) => {
       if (emailErr) {
         console.error('Error checking email:', emailErr.message);
-        return res.status(500).json({ error: 'Failed to check email.' });
+        return res.json({ code: "86", error: 'Failed to check email.' });
       }
       // console.log('email', emailResult)
       if (emailResult.length != 0) {
-        return res.status(500).json({ code: 500, message: 'Email is already used' });
+        return res.json({ code: "85", message: 'Email is already used' });
       }
 
       User.insertUsers(role_code, email, nama_lengkap, nip, hashPassword, no_hp, status, createdBy, updatedBy, (insertErr) => {
         if (insertErr) {
           console.error('Error inserting users:', insertErr.message);
-          return res.status(500).json({ error: 'Failed to insert users.' });
+          return res.json({code: "99", error: 'Failed to insert users.' });
         }
 
         response(200, [], 'Success', res);
