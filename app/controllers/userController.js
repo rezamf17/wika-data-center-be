@@ -18,6 +18,7 @@ exports.getUsers = (req, res) => {
                 email : user.email,
                 role_code : user.role_code,
                 nip : user.nip,
+                no_hp : user.nomor_hp,
                 status : user.status
             })
         })
