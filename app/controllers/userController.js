@@ -12,6 +12,7 @@ exports.getUsers = (req, res) => {
         }
         resUser = []
         users.map((user) => {
+          if (user.role_code != 'SU') {
             resUser.push({
                 id : user.id,
                 nama_lengkap : user.nama_lengkap,
@@ -21,6 +22,7 @@ exports.getUsers = (req, res) => {
                 no_hp : user.nomor_hp,
                 status : user.status
             })
+          }
         })
         response(200, resUser, 'Success', res);
       });
