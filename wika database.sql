@@ -14,11 +14,80 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Data exporting was unselected.
+
+-- Dumping database structure for wika
+CREATE DATABASE IF NOT EXISTS `wika` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `wika`;
+
+-- Dumping structure for table wika.file
+CREATE TABLE IF NOT EXISTS `file` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_project` int DEFAULT NULL,
+  `file_name` varchar(50) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `createdBy` varchar(50) DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  `updatedBy` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_project` (`id_project`),
+  CONSTRAINT `file_ibfk_1` FOREIGN KEY (`id_project`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Data exporting was unselected.
 
+-- Dumping structure for table wika.project
+CREATE TABLE IF NOT EXISTS `project` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `projectName` varchar(50) DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL,
+  `departemen` varchar(50) DEFAULT NULL,
+  `startProject` date DEFAULT NULL,
+  `endProject` date DEFAULT NULL,
+  `description` text,
+  `pj_proyek` varchar(50) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `createdBy` varchar(50) DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  `updatedBy` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 -- Data exporting was unselected.
+
+-- Dumping structure for table wika.proyek_member
+CREATE TABLE IF NOT EXISTS `proyek_member` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_project` int DEFAULT NULL,
+  `id_user` int DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `createdBy` varchar(50) DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  `updatedBy` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_user` (`id_user`),
+  KEY `id_proyek` (`id_project`,`id_user`) USING BTREE,
+  CONSTRAINT `proyek_member_ibfk_1` FOREIGN KEY (`id_project`) REFERENCES `project` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `proyek_member_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Data exporting was unselected.
+
+-- Dumping structure for table wika.user
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `role_code` enum('SU','A','PJ','MP','P') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `nama_lengkap` varchar(50) DEFAULT NULL,
+  `nip` varchar(50) DEFAULT NULL,
+  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `nomor_hp` varchar(50) DEFAULT NULL,
+  `status` enum('A','I') DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `createdBy` varchar(50) DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  `updatedBy` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Data exporting was unselected.
 
