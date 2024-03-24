@@ -19,6 +19,7 @@ app.use(bodyParser.json({ limit: '10mb' }));
 
 // projects
 app.get('/project', ProjectController.getProjects);
+app.get('/project/:id', ProjectController.getProjectDetail);
 app.post('/project', ProjectController.insertProjects);
 app.put('/project/:id', ProjectController.updateProjects);
 app.delete('/project/:id', ProjectController.deleteProjects);

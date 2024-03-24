@@ -15,7 +15,7 @@ const getProjects = (projectName, status, departemen, callback) => {
       });
   };
 
-const insertProjects = (projectName, status, departemen, startProject, endProject, description, pj_proyek, created, createdBy, updated, updatedBy, callback) => {
+const insertProjects = (projectName, status, departemen, startProject, endProject, description, tempat_proyek, pj_proyek, created, createdBy, updated, updatedBy, callback) => {
   const createdAt = new Date().toISOString();
   const sql = `INSERT INTO project 
               (projectName, 
@@ -24,6 +24,7 @@ const insertProjects = (projectName, status, departemen, startProject, endProjec
               startProject, 
               endProject, 
               description,
+              tempat_proyek,
               pj_proyek, 
               created, 
               createdBy, 
@@ -35,6 +36,7 @@ const insertProjects = (projectName, status, departemen, startProject, endProjec
               '${startProject}', 
               '${endProject}', 
               '${description}', 
+              '${tempat_proyek}', 
               '${pj_proyek}', 
               '${created}', 
               '${createdBy}', 
@@ -83,4 +85,14 @@ const deleteProjects = (id, callback) => {
       });
   };
 
-module.exports = {getProjects, insertProjects, updateProjects, deleteProjects}
+const getProjectsDetail = (id, callback) => {
+  const sql = `SELECT * FROM project WHERE id = ${id}`
+    connection.query(sql, (err, results) => {
+        if (err) {
+          return callback(err, null);
+        }
+        return callback(null, results);
+      });
+  };
+
+module.exports = {getProjects, insertProjects, updateProjects, deleteProjects, getProjectsDetail}
