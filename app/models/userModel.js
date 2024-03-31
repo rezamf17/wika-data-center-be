@@ -127,4 +127,14 @@ const updateUsersWithoutPassword = (id, role_code, email, nama_lengkap, nip, nom
     });
   }
 
-  module.exports = {getUsers, insertUsers, updateUsers, updateUsersWithoutPassword, deleteUser, checkNIP, checkEmail}
+  const userByRoleCode = (role_code, callback) => {
+    const sql = `SELECT * FROM user WHERE role_code = '${role_code}'`
+    connection.query(sql, (err, results) => {
+      if (err) {
+        return callback(err, null);
+      }
+      return callback(null, results);
+    });
+  }
+
+  module.exports = {getUsers, insertUsers, updateUsers, updateUsersWithoutPassword, deleteUser, checkNIP, checkEmail, userByRoleCode}
