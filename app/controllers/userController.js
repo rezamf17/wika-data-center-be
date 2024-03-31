@@ -106,7 +106,19 @@ exports.listPJProyek = async (req, res) => {
         console.error('Error list PJ proyek:', err.message);
         return res.status(500).json({ error: 'Failed to list PJ proyek.' });
       }
-      response(200, users, 'Success', res); // Mengirim users sebagai respons
+      let resUser = []
+      users.forEach(user => {
+        resUser.push({
+          id: user.id,
+          nama_lengkap: user.nama_lengkap,
+          email: user.email,
+          role_code: user.role_code,
+          nip: user.nip,
+          no_hp: user.nomor_hp,
+          status: user.status
+        })
+      });
+      response(200, resUser, 'Success', res); // Mengirim users sebagai respons
     });
   } catch (error) {
     console.error('Error list PJ proyek:', error.message);
